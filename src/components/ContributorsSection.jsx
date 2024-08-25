@@ -3,10 +3,9 @@ import React from 'react';
 const ContributorsSection = () => {
   return (
     <div className="bg-white py-10 mt-5">
-      {/* Individual Contributors Section */}
       <div className="text-center mb-10">
         <h2 className="text-2xl font-bold text-[#06038D]">Individual Contributors</h2>
-        <div className="flex justify-center gap-52 mt-6">
+        <div className="flex justify-center gap-52 mt-12 mb-9">
           {[
             { name: 'John Doe', amount: '₹3,00,000', img: 'https://via.placeholder.com/100' },
             { name: 'Smith', amount: '₹5,00,000', img: 'https://via.placeholder.com/100' },
@@ -30,7 +29,7 @@ const ContributorsSection = () => {
       {/* Company Contributors Section */}
       <div className="text-center mb-10">
         <h2 className="text-2xl font-bold text-[#06038D]">Company Contributors</h2>
-        <div className="flex justify-center gap-52 mt-6">
+        <div className="flex justify-center gap-52 mt-12 mb-5">
           {[
             { name: 'Dabur India', amount: '₹5,00,000', img: 'https://via.placeholder.com/100' },
             { name: 'Kirloskar Oil', amount: '₹4,00,000', img: 'https://via.placeholder.com/100' },

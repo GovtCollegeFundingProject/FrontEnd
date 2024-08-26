@@ -25,8 +25,6 @@ const ContributorsSection = () => {
           ))}
         </div>
       </div>
-
-      {/* Company Contributors Section */}
       <div className="text-center mb-10">
         <h2 className="text-2xl font-bold text-[#06038D]">Company Contributors</h2>
         <div className="flex justify-center gap-52 mt-12 mb-5">

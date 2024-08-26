@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import logo from '../assets/Google';
 
 const Signin = () => {
   const [selectedTab, setSelectedTab] = useState('individual');

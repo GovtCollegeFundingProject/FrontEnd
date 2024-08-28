@@ -3,7 +3,7 @@ import React from 'react';
 
 const WhatWeDo = () => {
   return (
-    <div className="w-full mb-8">
+    <div id='contributors' className="w-full mb-8">
       <h2 className="text-center text-[#06038D] font-semibold text-3xl mb-8">What we do.</h2>
       <div className="flex justify-center space-x-48 mt-14">
         <div className="border-4 border-[#06038D] p-6 rounded-md w-1/4">

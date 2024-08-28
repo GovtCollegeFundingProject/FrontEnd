@@ -19,12 +19,12 @@ const Navbar = () => {
         <img src="./img1.jpeg" alt="logo" className=" h-20 w-20 mr-5" />
         <img src="./AAhublogo.png" alt="logo" className=" h-20 w-20" />
       </div>
-      <div className="flex flex-row align-middle mt-6">
+      <div className="flex flex-row align-middle mt-6 ml-5">
         <div className="">
-          <a href="/" className="text-2xl font-bold text-black pr-9">Home</a>
+          <a href="#home" className="text-2xl font-bold text-black pr-9">Home</a>
           </div>
           <div className="">  
-          <a href="/about" className="text-2xl font-bold text-black">About</a>
+          <a href="#about" className="text-2xl font-bold text-black">About</a>
           </div>
       </div>
       <div className="mt-5 mr-12">

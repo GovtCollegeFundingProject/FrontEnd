@@ -2,8 +2,8 @@ import React from 'react';
 
 const AboutUs = () => {
   return (
-    <div className="w-full py-10 pl-9">
-      <h2 className="text-center text-[#06038D] font-semibold text-3xl mb-8">About Us</h2>
+    <div id="about" className="w-full py-10 pl-9">
+      <h2 className="text-center text-[#06038D] font-semibold text-3xl mb-8">About</h2>
       <div className="flex flex-col items-center px-8">
         <div className=" flex flex-row border-4 border-[#06038D] p-6 rounded-md w-3/4 mb-8">
           <img src={`./image226.png`} alt="APS CHE Logo" className=" h-44 w-44 mx-auto" />

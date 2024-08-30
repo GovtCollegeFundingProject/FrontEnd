@@ -22,7 +22,7 @@ const ContributionDetails = () => {
     };
 
     const handleEdit = () => {
-        navigate('/');
+        navigate('/company/payment');
     };
 
     return (
@@ -96,7 +96,7 @@ const ContributionDetails = () => {
                     </div>
                 </div>
                 <div className=" flex items-center justify-center">
-                <button className="bg-[#06038D] text-lg text-white py-2 px-10">
+                <button className="bg-[#06038D] text-lg text-white py-2 px-10" onClick={handleEdit}>
                     NEXT
                 </button>
                 </div>

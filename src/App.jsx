@@ -9,6 +9,7 @@ import ContributionDetails from "./components/ContributionDetails";
 import PaymentForm from "./components/PaymentForm";
 import SignInemail from "./components/SignInemail";
 import OTPInput from "./components/OTPInput";
+import AdminLogin from "./components/AdminLogin";
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
         <Route path="*" element={<h1>Not Found</h1>} />
         <Route path="/check" element={<SignInemail/>} />
         <Route path="/check/otp" element={<OTPInput/>} />
+        <Route path="/admin" element={<AdminLogin/>} />
       </Routes>
     </Router>
     </>

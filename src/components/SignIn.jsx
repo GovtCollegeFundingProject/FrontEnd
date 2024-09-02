@@ -85,6 +85,7 @@ const Signin = () => {
             </div>
             <button
               className="w-full p-3 text-md bg-blue-900 text-white font-semibold rounded"
+              onClick={() => navigate('/')}
             >
               Sign In
             </button>

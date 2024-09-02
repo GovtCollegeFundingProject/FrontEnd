@@ -7,6 +7,8 @@ import IndividualRegister from "./components/IndividualRegister";
 import CompanyRegister from "./components/CompanyRegister";
 import ContributionDetails from "./components/ContributionDetails";
 import PaymentForm from "./components/PaymentForm";
+import SignInemail from "./components/SignInemail";
+import OTPInput from "./components/OTPInput";
 function App() {
   return (
     <>
@@ -21,6 +23,8 @@ function App() {
         <Route path='/company' element={<ContributionDetails/>} />
         <Route path='/company/payment' element={<PaymentForm/>} />
         <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="/check" element={<SignInemail/>} />
+        <Route path="/check/otp" element={<OTPInput/>} />
       </Routes>
     </Router>
     </>

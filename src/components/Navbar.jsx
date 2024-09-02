@@ -9,7 +9,7 @@ const Navbar = () => {
   }
 
   const handleClick2 = () => {  
-  navigate('/register')
+  navigate('/check')
   }
 
   return (

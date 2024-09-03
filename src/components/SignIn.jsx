@@ -1,19 +1,48 @@
-import GoogleIcon from '@mui/icons-material/Google';
 import LessThanIcon from '@mui/icons-material/ChevronLeft';
 import { useNavigate } from 'react-router'
 import React, { useState } from 'react';
-
+import axios from 'axios';  
+import { useDispatch, useSelector } from 'react-redux';
+import { selectToken, setMail, setToken } from '../redux/authSlice';
 const Signin = () => {
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
   const navigate = useNavigate();
   const handleClicks = () => {
     navigate('/');
   };
   const [selectedTab, setSelectedTab] = useState('individual');
   const [formData, setFormData] = useState({
-    mail: '',
+    email: '',
     password: '',
-    remember: false,
   });
+
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(formData);
+      const response = await axios.post(`${BASE_URL}auth/login/`, formData, {
+        withCredentials: true,
+      });
+  
+      if (response && response.data) {
+        dispatch(setToken(response.data.token));
+        console.log(response.data.user?.email);
+        dispatch(setMail(response.data.user?.email));
+        console.log(response.data);
+  
+        if (token) {
+          navigate('/');
+        }
+      } else {
+        console.error('Unexpected response structure:', response);
+      }
+    } catch (error) {
+      console.error('Error during login:', error.response?.data || error.message);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -53,7 +82,7 @@ const Signin = () => {
             </div>
             <input
               type="email"
-              name="mail"
+              name="email"
               placeholder="E-Mail Id"
               value={formData.mail}
               onChange={handleChange}
@@ -68,33 +97,15 @@ const Signin = () => {
               className="w-full p-2 mb-4 border border-gray-300 rounded"
             />
             <div className="flex justify-between items-center w-full mb-4">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="remember"
-                  id="remember"
-                  checked={formData.remember}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                <label htmlFor="remember" className="text-sm text-gray-700">Remember me</label>
-              </div>
               <div className="text-sm">
                 <a href="#" className="text-blue-500 hover:underline">Forgot Password?</a>
               </div>
             </div>
             <button
               className="w-full p-3 text-md bg-blue-900 text-white font-semibold rounded"
-              onClick={() => navigate('/')}
+              onClick={handleSubmit}
             >
               Sign In
-            </button>
-            <p className="my-4 text-center font-semibold text-lg text-gray-600">or</p>
-            <button
-              className="w-full p-3 text-md bg-[#C1C1C1] text-black font-semibold rounded"
-            >
-              <GoogleIcon className="text-lg text-black mr-3" />
-              Continue with Google
             </button>
           </div>
         </div>

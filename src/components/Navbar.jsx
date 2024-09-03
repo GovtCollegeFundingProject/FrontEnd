@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   const handleClick2 = () => {
-    navigate("/check");
+    navigate("/register");
   };
 
   return (

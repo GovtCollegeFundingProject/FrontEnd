@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import LessThanIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useNavigate } from 'react-router';
-import countries from './Countries';
+import axios from 'axios';
+import { selectToken } from '../redux/authSlice';
+import { useSelector } from 'react-redux';
 
 const IndividualRegister = () => {
   const navigate = useNavigate();
+  const token = useSelector(selectToken);
 
   const [formData, setFormData] = useState({
+    role: 'INDIVIDUAL',
     salutation: '',
-    fullName: '',
+    email: '',
+    name: '',
     phoneNumber: '',
     whatsappNumber: '',
-    panNumber: '',
+    pan: '',
     password: '',
     confirmPassword: '',
-    taxExemption: 'no',
+    taxExemptionRequired: 'no',
     anonymous: 'no',
-    isWhatsappSame: false,
+    whatsappCompatible: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -25,7 +30,7 @@ const IndividualRegister = () => {
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
 
-    if (name === 'isWhatsappSame') {
+    if (name === 'whatsappCompatible') {
       setFormData({
         ...formData,
         [name]: checked,
@@ -39,32 +44,52 @@ const IndividualRegister = () => {
     }
   };
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const validateForm = () => {
     let formErrors = {};
-    if (formData.taxExemption === 'yes' && !formData.panNumber) {
-      formErrors.panNumber = 'PAN number is required for tax exemption.';
+    if (formData.taxExemptionRequired === 'yes' && !formData.pan.trim()) {
+      formErrors.pan = 'PAN number is required for tax exemption.';
     }
+
+    if (formData.password !== formData.confirmPassword) {
+      formErrors.confirmPassword = 'Passwords do not match.';
+    }
+
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      navigate('/');
-    } else {
-      console.log("NOPE!");
+    e.preventDefault(); 
+    if (!validateForm()) {
+      return;
     }
+    axios.post(`${BASE_URL}auth/registerIndividual/`, formData, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response.data);
+        navigate('/signin');
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error.response?.data || error.message);
+      });
   };
 
   useEffect(() => {
     const validateForm = () => {
-      const { fullName, phoneNumber, password, confirmPassword, whatsappNumber } = formData;
-      if (fullName && phoneNumber && password && confirmPassword && whatsappNumber && password === confirmPassword) {
-        return true;
-      }
-      return false;
+      const { name, phoneNumber, password, confirmPassword, whatsappNumber } = formData;
+      const isFormValid =
+        name &&
+        phoneNumber &&
+        password &&
+        confirmPassword &&
+        whatsappNumber &&
+        password === confirmPassword &&
+        (formData.taxExemptionRequired === 'no' || formData.pan.trim());
+
+      return isFormValid;
     };
 
     setIsFormValid(validateForm() && Object.keys(errors).length === 0);
@@ -104,15 +129,23 @@ const IndividualRegister = () => {
             <div className="grid grid-cols-2 gap-4 mb-6">
               <input
                 type="text"
-                name="fullName"
+                name="name"
                 placeholder="Enter Full Name *"
-                value={formData.fullName}
+                value={formData.name}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="E-Mail Id *"
+                value={formData.email}
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
               />
               <div className="flex space-x-2 items-center">
                 <input
-                  type="text"
+                  type="number"
                   name="phoneNumber"
                   placeholder="Phone Number *"
                   value={formData.phoneNumber}
@@ -123,15 +156,15 @@ const IndividualRegister = () => {
               <div className="flex items-center mb-4">
                 <input
                   type="checkbox"
-                  name="isWhatsappSame"
-                  checked={formData.isWhatsappSame}
+                  name="whatsappCompatible"
+                  checked={formData.whatsappCompatible}
                   onChange={handleChange}
                   className="mr-1.5 ml-2"
                 />
-                <label htmlFor="isWhatsappSame" className="text-sm text-gray-700 mb-0.5">WhatsApp number same as phone number</label>
+                <label htmlFor=" whatsappCompatible" className="text-sm text-gray-700 mb-0.5">WhatsApp number same as phone number</label>
               </div>
               <input
-                type="text"
+                type="number"
                 name="whatsappNumber"
                 placeholder="WhatsApp Number *"
                 value={formData.whatsappNumber}
@@ -158,14 +191,14 @@ const IndividualRegister = () => {
               />
               <input
                 type="text"
-                name="panNumber"
+                name="pan"
                 placeholder="PAN (optional)"
-                value={formData.panNumber}
+                value={formData.pan}
                 onChange={handleChange}
-                className={`p-2 border border-gray-300 rounded ${errors.panNumber ? 'border-red-500' : ''}`}
+                className={`p-2 border border-gray-300 rounded ${errors.pan ? 'border-red-500' : ''}`}
               />
-              {errors.panNumber && (
-                <p className="text-red-500 text-sm mt-1 col-span-2">{errors.panNumber}</p>
+              {errors.pan && (
+                <p className="text-red-500 text-sm mt-1 col-span-2">{errors.pan}</p>
               )}
             </div>
 
@@ -188,7 +221,7 @@ const IndividualRegister = () => {
                     type="radio"
                     name="taxExemption"
                     value="no"
-                    checked={formData.taxExemption === 'no'}
+                    checked={formData.taxExemptionRequired === 'no'}
                     onChange={handleChange}
                     className="form-radio text-gray-700"
                   />

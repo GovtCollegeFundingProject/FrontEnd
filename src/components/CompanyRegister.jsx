@@ -1,37 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import LessThanIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { selectToken } from '../redux/authSlice';
+import { useSelector } from 'react-redux';
 
 const CompanyRegister = () => {
   const navigate = useNavigate();
+  const token = useSelector(selectToken);
 
   const [formData, setFormData] = useState({
-    companyName: '',
+    role: 'COMPANY',
     salutation: '',
-    contactName: '',
-    uin: '',
-    phone: '',
-    whatsapp: '',
+    name: '',
+    contactPersonName:'',
     email: '',
+    phoneNumber: '',
+    whatsappNumber: '',
     pan: '',
+    companyID: '',
     password: '',
     confirmPassword: '',
-    taxExemption: 'No',
-    anonymous: 'No',
-    isWhatsappSame: false,
+    taxExemptionRequired: 'no',
+    anonymous: 'no',
+    whatsappCompatible: false,
   });
 
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, checked } = e.target;
 
-    if (name === 'isWhatsappSame') {
+    if (name === 'whatsappCompatible') {
       setFormData({
         ...formData,
         [name]: checked,
-        whatsapp: checked ? formData.phone : '',
+        whatsappNumber: checked ? formData.phoneNumber : '',
       });
     } else {
       setFormData({
@@ -41,20 +46,20 @@ const CompanyRegister = () => {
     }
   };
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   const validateForm = () => {
     let formErrors = {};
 
-    // Check for tax exemption requirements
-    if (formData.taxExemption === 'Yes') {
-      if (!formData.uin) {
-        formErrors.uin = 'UIN is required for tax exemption.';
-      }
-      if (!formData.pan) {
+    if (formData.taxExemptionRequired === 'yes') {
+      if (!formData.pan.trim()) {
         formErrors.pan = 'PAN number is required for tax exemption.';
+      }
+      if (!formData.companyID.trim()) {
+        formErrors.companyID = 'UIN number is required for tax exemption.';
       }
     }
 
-    // Check password match
     if (formData.password !== formData.confirmPassword) {
       formErrors.confirmPassword = 'Passwords do not match.';
     }
@@ -65,31 +70,34 @@ const CompanyRegister = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log('Form submitted', formData);
-      navigate('/');
-    } else {
-      console.log('Form validation failed!');
+    if (!validateForm()) {
+      return;
     }
+    axios.post(`${BASE_URL}auth/registerCompany/`, formData, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response.data);
+        navigate('/signin');
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error.response?.data || error.message);
+      });
   };
 
   useEffect(() => {
     const validateForm = () => {
-      const { companyName, contactName, uin, phone, whatsapp, email, password, confirmPassword } = formData;
-      if (
-        companyName &&
-        contactName &&
-        uin &&
-        phone &&
-        whatsapp &&
-        email &&
+      const { name, phoneNumber, password, confirmPassword, whatsappNumber } = formData;
+      const isFormValid =
+        name &&
+        phoneNumber &&
         password &&
         confirmPassword &&
-        password === confirmPassword
-      ) {
-        return true;
-      }
-      return false;
+        whatsappNumber &&
+        password === confirmPassword &&
+        (formData.taxExemptionRequired === 'no' || (formData.pan.trim() && formData.companyID.trim()));
+
+      return isFormValid;
     };
 
     setIsFormValid(validateForm() && Object.keys(errors).length === 0);
@@ -99,27 +107,15 @@ const CompanyRegister = () => {
     <>
       <div className="flex flex-col ml-5 mt-3">
         <div className="flex flex-row hover:cursor-pointer" onClick={() => navigate('/register')}>
-          <LessThanIcon className="text-2xl text-gray-800 cursor-pointer mt-2" />
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Now Register as a Company :</h2>
+          <LessThanIcon className='text-2xl text-gray-800 cursor-pointer mt-2' />
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">Now Register as a Company:</h2>
         </div>
         <p className="mb-2 text-xl text-gray-600 ml-6">Please fill the form</p>
       </div>
       <div className="flex justify-center items-center h-full mt-2 ml-3">
         <div className="w-full px-8">
           <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <p className="mb-2 font-semibold text-gray-800">Name of the Company *</p>
-              <input
-                type="text"
-                name="companyName"
-                value={formData.companyName}
-                onChange={handleChange}
-                placeholder="Enter Company Name"
-                className="p-2 border border-gray-300 rounded w-full"
-                required
-              />
-            </div>
-            <div className="mb-6">
+          <div className="mb-3">
               <p className="mb-2 font-semibold text-gray-800">Select Salutation</p>
               <div className="flex space-x-4">
                 {['Mr.', 'Ms.', 'Mrs.', 'Dr.'].map((salutation) => (
@@ -137,72 +133,68 @@ const CompanyRegister = () => {
                 ))}
               </div>
             </div>
+            <div className="mb-3">
+              <p className="mb-2 font-semibold text-gray-800">Company Name</p>
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter Company Name *"
+                value={formData.name}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded"
+              />
+            </div>
+
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <input
-                type="text"
-                name="contactName"
-                placeholder="Name of the Contact Person *"
-                value={formData.contactName}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                name="uin"
-                placeholder="Company UIN *"
-                value={formData.uin}
-                onChange={handleChange}
-                className={`p-2 border border-gray-300 rounded ${errors.uin ? 'border-red-500' : ''}`}
-              />
-              {errors.uin && <p className="text-red-500 text-sm mt-1">{errors.uin}</p>}
-              <input
-                type="text"
-                name="phone"
-                placeholder="Phone Number *"
-                value={formData.phone}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded"
-              />
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="isWhatsappSame"
-                  checked={formData.isWhatsappSame}
-                  onChange={handleChange}
-                  className="mr-1.5 ml-2"
-                />
-                <label htmlFor="isWhatsappSame" className="text-sm text-gray-700 mb-0.5">WhatsApp number same as phone number</label>
-              </div>
-              <input
-                type="text"
-                name="whatsapp"
-                placeholder="WhatsApp Number *"
-                value={formData.whatsapp}
-                onChange={handleChange}
-                disabled={formData.isWhatsappSame}
-                className={`p-2 border border-gray-300 rounded ${formData.isWhatsappSame ? 'bg-gray-200' : ''}`}
-              />
               <input
                 type="email"
                 name="email"
-                placeholder="Contact Person E-Mail *"
+                placeholder="E-Mail Id *"
                 value={formData.email}
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
               />
               <input
                 type="text"
-                name="pan"
-                placeholder="Company PAN (Optional)"
-                value={formData.pan}
+                name="contactPersonName"
+                placeholder="Contact Person Name *"
+                value={formData.contactPersonName}
                 onChange={handleChange}
-                className={`p-2 border border-gray-300 rounded ${errors.pan ? 'border-red-500' : ''}`}
+                className="p-2 border border-gray-300 rounded"
               />
-              {errors.pan && <p className="text-red-500 text-sm mt-1">{errors.pan}</p>}
+              <div className="flex space-x-2 items-center">
+                <input
+                  type="number"
+                  name="phoneNumber"
+                  placeholder="Phone Number *"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="p-2 border border-gray-300 rounded flex-1"
+                />
+              </div>
+              <div className="flex items-center mb-4">
+                <input
+                  type="checkbox"
+                  name="whatsappCompatible"
+                  checked={formData.whatsappCompatible}
+                  onChange={handleChange}
+                  className="mr-1.5 ml-2"
+                />
+                <label htmlFor="whatsappCompatible" className="text-sm text-gray-700 mb-0.5">WhatsApp number same as phone number</label>
+              </div>
+              <input
+                type="number"
+                name="whatsappNumber"
+                placeholder="WhatsApp Number *"
+                value={formData.whatsappNumber}
+                onChange={handleChange}
+                disabled={formData.whatsappCompatible}
+                className={`p-2 border border-gray-300 rounded ${formData.whatsappCompatible ? 'bg-gray-200' : ''}`}
+              />
               <input
                 type="password"
                 name="password"
-                placeholder="Contact Person Password *"
+                placeholder="Password *"
                 value={formData.password}
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded"
@@ -213,19 +205,41 @@ const CompanyRegister = () => {
                 placeholder="Re-enter Password *"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`p-2 border border-gray-300 rounded ${errors.confirmPassword ? 'border-red-500' : ''}`}
+                className="p-2 border border-gray-300 rounded"
               />
-              {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+              <input
+                type="text"
+                name="pan"
+                placeholder="PAN (optional)"
+                value={formData.pan}
+                onChange={handleChange}
+                className={`p-2 border border-gray-300 rounded ${errors.pan ? 'border-red-500' : ''}`}
+              />
+              {errors.pan && (
+                <p className="text-red-500 text-sm mt-1 col-span-2">{errors.pan}</p>
+              )}
+              <input
+                type="text"
+                name="companyID"
+                placeholder="UIN (optional)"
+                value={formData.companyID}
+                onChange={handleChange}
+                className={`p-2 border border-gray-300 rounded ${errors.companyID ? 'border-red-500' : ''}`}
+              />
+              {errors.companyID && (
+                <p className="text-red-500 text-sm mt-1 col-span-2">{errors.companyID}</p>
+              )}
             </div>
-            <div className="mb-6">
+
+            <div className="mb-4">
               <p className="font-semibold text-gray-800">Are you looking for TAX exemption receipt? (Under Section 80G)</p>
               <div className="flex space-x-4 mt-2">
                 <label className="flex items-center space-x-2">
                   <input
                     type="radio"
-                    name="taxExemption"
-                    value="Yes"
-                    checked={formData.taxExemption === 'Yes'}
+                    name="taxExemptionRequired"
+                    value="yes"
+                    checked={formData.taxExemptionRequired === 'yes'}
                     onChange={handleChange}
                     className="form-radio text-gray-700"
                   />
@@ -234,21 +248,22 @@ const CompanyRegister = () => {
                 <label className="flex items-center space-x-2">
                   <input
                     type="radio"
-                    name="taxExemption"
-                    value="No"
-                    checked={formData.taxExemption === 'No'}
+                    name="taxExemptionRequired"
+                    value="no"
+                    checked={formData.taxExemptionRequired === 'no'}
                     onChange={handleChange}
                     className="form-radio text-gray-700"
                   />
                   <span>No</span>
                 </label>
               </div>
-              {formData.taxExemption === 'Yes' && (
+              {formData.taxExemptionRequired === 'yes' && (
                 <p className="text-red-600 mt-2 text-sm">
-                  Note - If Yes, UIN and PAN Number are mandatory
+                  Note - If Yes, PAN and UIN Number are mandatory
                 </p>
               )}
             </div>
+
             <div className="mb-6">
               <p className="font-semibold text-gray-800">Do you want to keep your identity anonymous?</p>
               <div className="flex space-x-4 mt-2">
@@ -256,8 +271,8 @@ const CompanyRegister = () => {
                   <input
                     type="radio"
                     name="anonymous"
-                    value="Yes"
-                    checked={formData.anonymous === 'Yes'}
+                    value="yes"
+                    checked={formData.anonymous === 'yes'}
                     onChange={handleChange}
                     className="form-radio text-gray-700"
                   />
@@ -267,23 +282,24 @@ const CompanyRegister = () => {
                   <input
                     type="radio"
                     name="anonymous"
-                    value="No"
-                    checked={formData.anonymous === 'No'}
-                    onChange={handleChange}
+                    value="no"
+                    checked={formData.anonymous === 'no'}
+                    onChange=                    {handleChange}
                     className="form-radio text-gray-700"
                   />
                   <span>No</span>
                 </label>
               </div>
             </div>
-            <div className="flex items-center justify-center mb-3">
-            <button
-              type="submit"
-              disabled={!isFormValid}
-              className='w-1/5 p-2 text-white rounded bg-blue-900'
-            >
-              Register
-            </button>
+
+            <div className="flex items-center justify-center">
+              <button
+                type="submit"
+                className="w-1/5 p-3 text-lg bg-blue-900 text-white rounded transition-transform"
+                disabled={!isFormValid}
+              >
+                REGISTER
+              </button>
             </div>
           </form>
         </div>

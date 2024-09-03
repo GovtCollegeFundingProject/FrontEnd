@@ -1,19 +1,19 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
-import { selectMail, selectToken } from '../redux/authSlice'
-
+import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { selectToken } from "../redux/authSlice";
+import DropdownMenu from "./DropdownMenu";
 const Navbar = () => {
 
   const token = useSelector(selectMail);
   const navigate = useNavigate()
   const handleClick1 = () => {
-    navigate('/signin')
-  }
+    navigate("/signin");
+  };
 
   const handleClick2 = () => {
-    navigate('/check')
-  }
+    navigate("/check");
+  };
 
   return (
     <>
@@ -24,28 +24,47 @@ const Navbar = () => {
         </div>
         <div className="flex flex-row align-middle mt-6 ml-5">
           <div className="">
-            <a href="#home" className="text-2xl font-bold text-black pr-9">Home</a>
+            <a href="#home" className="text-2xl font-bold text-black pr-9">
+              Home
+            </a>
           </div>
           <div className="">
-            <a href="#about" className="text-2xl font-bold text-black">About</a>
+            <a href="#about" className="text-2xl font-bold text-black">
+              About
+            </a>
           </div>
         </div>
-        {
-          token ? (<div className="mt-5 mr-12">
-            <p className=' text-black text-xl mr-36'>{token}</p>
-          </div>) : (<div className="mt-5 mr-12">
-            <button onClick={handleClick1} className=" bg-white border-2 border-[#06038D] text-[#06038D] font-semibold py-1.5 px-4 mr-4">
-              Sign In
-            </button>
-            <button onClick={handleClick2} className="bg-[#06038D] font-semibold text-white py-2 px-4">
-              Register
-            </button>
-          </div>)
-        }
-
+        {token ? (
+          <div className="mt-5 mr-12">
+            <p className=" text-black text-xl">
+              <DropdownMenu></DropdownMenu>
+            </p>
+          </div>
+        ) : (
+          <div className="mt-5 mr-12">
+            <button
+              onClick={handleClick1}
+              className=" bg-white border-2 border-[#06038D] text-[#06038D] font-semibold py-1.5 px-4 mr-4"
+            >
+//         {
+//           token ? (<div className="mt-5 mr-12">
+//             <p className=' text-black text-xl mr-36'>{token}</p>
+//           </div>) : (<div className="mt-5 mr-12">
+//             <button onClick={handleClick1} className=" bg-white border-2 border-[#06038D] text-[#06038D] font-semibold py-1.5 px-4 mr-4">
+// >>>>>>> main
+//               Sign In
+//             </button>
+//             <button
+//               onClick={handleClick2}
+//               className="bg-[#06038D] font-semibold text-white py-2 px-4"
+//             >
+//               Register
+//             </button>
+//           </div>
+//         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

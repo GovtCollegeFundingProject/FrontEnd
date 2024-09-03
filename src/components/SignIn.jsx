@@ -1,26 +1,39 @@
 import LessThanIcon from '@mui/icons-material/ChevronLeft';
-import { useNavigate } from 'react-router'
-import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';  
 import { useDispatch, useSelector } from 'react-redux';
 import { selectToken, setMail, setToken } from '../redux/authSlice';
+
 const Signin = () => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const navigate = useNavigate();
-  const handleClicks = () => {
-    navigate('/');
-  };
+
   const [selectedTab, setSelectedTab] = useState('individual');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClicks = () => {
+    navigate('/');
+  };
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+  useEffect(() => {
+    // Navigate if the token is available
+    if (token) {
+      navigate('/');
+    }
+  }, [token, navigate]); // Dependency on token
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
       console.log(formData);
       const response = await axios.post(`${BASE_URL}auth/login/`, formData, {
@@ -30,17 +43,15 @@ const Signin = () => {
       if (response && response.data) {
         dispatch(setToken(response.data.token));
         console.log(response.data.user?.email);
-        dispatch(setMail(response.data.user?.email));
+        dispatch(setMail(response.data.individualData?.name));
         console.log(response.data);
-  
-        if (token) {
-          navigate('/');
-        }
       } else {
         console.error('Unexpected response structure:', response);
       }
     } catch (error) {
       console.error('Error during login:', error.response?.data || error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,7 +95,7 @@ const Signin = () => {
               type="email"
               name="email"
               placeholder="E-Mail Id"
-              value={formData.mail}
+              value={formData.email}
               onChange={handleChange}
               className="w-full p-2 mb-4 border border-gray-300 rounded"
             />
@@ -104,8 +115,9 @@ const Signin = () => {
             <button
               className="w-full p-3 text-md bg-blue-900 text-white font-semibold rounded"
               onClick={handleSubmit}
+              disabled={isLoading} 
             >
-              Sign In
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
           </div>
         </div>

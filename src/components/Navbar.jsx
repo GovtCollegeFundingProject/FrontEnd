@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectToken } from "../redux/authSlice";
 import DropdownMenu from "./DropdownMenu";
-
 const Navbar = () => {
-  const token = useSelector(selectToken);
-  const navigate = useNavigate();
+
+  const token = useSelector(selectMail);
+  const navigate = useNavigate()
   const handleClick1 = () => {
     navigate("/signin");
   };
@@ -46,16 +46,22 @@ const Navbar = () => {
               onClick={handleClick1}
               className=" bg-white border-2 border-[#06038D] text-[#06038D] font-semibold py-1.5 px-4 mr-4"
             >
-              Sign In
-            </button>
-            <button
-              onClick={handleClick2}
-              className="bg-[#06038D] font-semibold text-white py-2 px-4"
-            >
-              Register
-            </button>
-          </div>
-        )}
+//         {
+//           token ? (<div className="mt-5 mr-12">
+//             <p className=' text-black text-xl mr-36'>{token}</p>
+//           </div>) : (<div className="mt-5 mr-12">
+//             <button onClick={handleClick1} className=" bg-white border-2 border-[#06038D] text-[#06038D] font-semibold py-1.5 px-4 mr-4">
+// >>>>>>> main
+//               Sign In
+//             </button>
+//             <button
+//               onClick={handleClick2}
+//               className="bg-[#06038D] font-semibold text-white py-2 px-4"
+//             >
+//               Register
+//             </button>
+//           </div>
+//         )}
       </div>
     </>
   );

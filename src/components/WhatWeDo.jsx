@@ -1,14 +1,19 @@
-import { NearMe } from '@mui/icons-material';
+import { ArrowBack, NearMe } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectToken } from '../redux/authSlice';
 
 const WhatWeDo = () => {
+  const token = useSelector(selectToken);
   const navigate = useNavigate();
   const handleClick1 = () => {
-    navigate('/company');
+    if(!token) navigate('/signin');
+    else navigate('/company');
   }
   const handleClick2 = () => {
-    navigate('/signin');
+    if(!token) navigate('/signin');
+    else navigate('/signin');
   }
 
   return (

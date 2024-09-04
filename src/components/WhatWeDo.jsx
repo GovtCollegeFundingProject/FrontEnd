@@ -13,7 +13,7 @@ const WhatWeDo = () => {
   }
   const handleClick2 = () => {
     if(!token) navigate('/signin');
-    else navigate('/signin');
+    else navigate('/collegespecific');
   }
 
   return (

@@ -1,14 +1,12 @@
-// src/components/CollegeSelection.js
-
 import React, { useEffect, useState } from "react";
 
-const CollegeSelection = ({ district, setSelectedCollege, setCurrentStep }) => {
+const CollegeSelection = ({ district, setSelectedCollege, setCurrentStep, goBack }) => {
   const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
     // Filter colleges based on the selected district
     const allColleges = {
-      Anakapalle: [
+      Anakapalli: [
         "Visakha Govt Jr College",
         "Dr Vs k Govt Jr College",
         "Govt Jr College, Pendurthy",
@@ -41,6 +39,11 @@ const CollegeSelection = ({ district, setSelectedCollege, setCurrentStep }) => {
             </label>
           </div>
         ))}
+      </div>
+      <div className="flex items-center justify-start mt-8">
+        <button onClick={goBack} className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">
+          Back
+        </button>
       </div>
     </div>
   );

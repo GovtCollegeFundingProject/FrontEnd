@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useState } from "react";
 import Steps from "./Steps";
 import UserDetails from "./UserDetails";
@@ -20,6 +18,12 @@ function Collegespecific() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedCollege, setSelectedCollege] = useState("");
 
+  const goBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const renderRightComponent = () => {
     switch (currentStep) {
       case 1:
@@ -35,10 +39,15 @@ function Collegespecific() {
             district={selectedDistrict}
             setSelectedCollege={setSelectedCollege}
             setCurrentStep={setCurrentStep}
+            goBack={goBack}  // Pass goBack to CollegeSelection
           />
         );
       case 3:
-        return <PaymentForm />;
+        return (
+          <PaymentForm 
+            goBack={goBack}  // Pass goBack to PaymentForm
+          />
+        );
       default:
         return null;
     }

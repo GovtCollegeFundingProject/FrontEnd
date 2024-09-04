@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectMail, selectToken } from "../redux/authSlice";
 import DropdownMenu from "./DropdownMenu";
+import image4 from "../assets/img1.jpeg";
+import imga3 from "../assets/AAhublogo.png";
+
 
 const Navbar = () => {
   const token = useSelector(selectToken);
@@ -20,8 +23,8 @@ const Navbar = () => {
     <>
       <div className="flex flex-row p-5 bg-white h-28 w-full justify-between">
         <div className="flex flex-row ml-14">
-          <img src="./img1.jpeg" alt="logo" className="h-20 w-20 mr-5" />
-          <img src="./AAhublogo.png" alt="logo" className="h-20 w-20" />
+          <img src={image4} alt="logo" className="h-20 w-20 mr-5" />
+          <img src={imga3} alt="logo" className="h-20 w-20" />
         </div>
         <div className="flex flex-row align-middle mt-6 ml-5">
           <div className="">

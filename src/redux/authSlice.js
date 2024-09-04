@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 const initialState = {
   token: null,
-  email:'',
+  email: '',
 };
 
 const authSlice = createSlice({
@@ -14,16 +16,25 @@ const authSlice = createSlice({
     },
     clearToken: (state) => {
       state.token = null;
-    },
+    },    
     setMail: (state, action) => {
       state.email = action.payload;
     },
-    clearMAil: (state) => {
+    clearMail: (state) => {
       state.email = '';  
     },
-}});
+  }
+});
 
-export const { setToken, clearToken, setMail, clearMAil } = authSlice.actions;
+export const { setToken, clearToken, setMail, clearMail } = authSlice.actions;
 export const selectToken = (state) => state.auth.token;
 export const selectMail = (state) => state.auth.email;
-export default authSlice.reducer;
+
+const persistConfig = {
+  key: 'auth',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, authSlice.reducer);
+
+export default persistedReducer;

@@ -5,7 +5,7 @@ import { selectMail, selectToken } from "../redux/authSlice";
 import DropdownMenu from "./DropdownMenu";
 
 const Navbar = () => {
-  const token = useSelector(selectMail);
+  const token = useSelector(selectToken);
   const navigate = useNavigate();
 
   const handleClick1 = () => {

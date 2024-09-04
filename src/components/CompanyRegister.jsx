@@ -55,9 +55,6 @@ const CompanyRegister = () => {
       if (!formData.pan.trim()) {
         formErrors.pan = 'PAN number is required for tax exemption.';
       }
-      if (!formData.companyID.trim()) {
-        formErrors.companyID = 'UIN number is required for tax exemption.';
-      }
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -70,10 +67,17 @@ const CompanyRegister = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
     if (!validateForm()) {
       return;
     }
-    axios.post(`${BASE_URL}auth/registerCompany/`, formData, {
+  
+    const submissionData = { ...formData };
+    // if (formData.taxExemptionRequired === 'no') {
+    //   delete submissionData.pan;
+    // }
+  
+    axios.post(`${BASE_URL}auth/registerCompany/`, submissionData, {
       withCredentials: true,
     })
       .then((response) => {
@@ -81,22 +85,28 @@ const CompanyRegister = () => {
         navigate('/signin');
       })
       .catch((error) => {
-        console.error('Error during registration:', error.response?.data || error.message);
+        console.error('Error during registration:', {
+          message: error.message,
+          response: error.response ? error.response.data : 'No response received',
+          config: error.config,
+        });
       });
   };
+  
+  
 
   useEffect(() => {
     const validateForm = () => {
-      const { name, phoneNumber, password, confirmPassword, whatsappNumber } = formData;
+      const { name, phoneNumber, password, confirmPassword, whatsappNumber , companyID } = formData;
       const isFormValid =
         name &&
         phoneNumber &&
         password &&
         confirmPassword &&
         whatsappNumber &&
+        companyID &&
         password === confirmPassword &&
-        (formData.taxExemptionRequired === 'no' || (formData.pan.trim() && formData.companyID.trim()));
-
+        (formData.taxExemptionRequired === 'no' || (formData.pan.trim()));
       return isFormValid;
     };
 
@@ -221,7 +231,7 @@ const CompanyRegister = () => {
               <input
                 type="text"
                 name="companyID"
-                placeholder="UIN (optional)"
+                placeholder="UIN"
                 value={formData.companyID}
                 onChange={handleChange}
                 className={`p-2 border border-gray-300 rounded ${errors.companyID ? 'border-red-500' : ''}`}

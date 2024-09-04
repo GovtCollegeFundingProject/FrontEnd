@@ -3,9 +3,19 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GroupIcon from "@mui/icons-material/Group";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { useDispatch, useSelector } from "react-redux";
+import { clearToken, selectToken } from "../redux/authSlice";
 
 const DropdownMenu = () => {
+  const dispatch = useDispatch(); // Corrected typo here
+  const token = useSelector(selectToken);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleClear = () => {
+    dispatch(clearToken()); // Corrected typo here
+    console.log("Token cleared: ", token);
+    setIsOpen(false);
+  }
 
   return (
     <div className="relative inline-block text-left mr-6">
@@ -32,7 +42,7 @@ const DropdownMenu = () => {
               <GroupIcon />
               <span className="ml-2">Beneficiaries</span>
             </button>
-            <button className="flex items-center p-2 text-left text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md">
+            <button className="flex items-center p-2 text-left text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md" onClick={handleClear}>
               <ExitToAppIcon />
               <span className="ml-2">Log out</span>
             </button>

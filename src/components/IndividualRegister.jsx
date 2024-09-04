@@ -2,12 +2,9 @@ import React, { useState, useEffect } from 'react';
 import LessThanIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import { selectToken } from '../redux/authSlice';
-import { useSelector } from 'react-redux';
 
 const IndividualRegister = () => {
   const navigate = useNavigate();
-  const token = useSelector(selectToken);
 
   const [formData, setFormData] = useState({
     role: 'INDIVIDUAL',
@@ -106,7 +103,7 @@ const IndividualRegister = () => {
       </div>
       <div className="flex justify-center items-center h-full mt-2 ml-3">
         <div className="w-full px-8">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>  
             <div className="mb-3">
               <p className="mb-2 font-semibold text-gray-800">Select Salutation</p>
               <div className="flex space-x-4">

@@ -12,6 +12,9 @@ import OTPInput from "./components/OTPInput";
 import AdminLogin from "./components/AdminLogin";
 import Collegespecific from "./components/Collegespecific";
 import Profile from "./components/Profile";
+import IndividualEdit from "./components/IndividualEdit";
+import CompanyEdit from "./components/CompanyEdit";
+import ContributionPayment from "./components/ContributionPatyment";
 function App() {
   return (
     <>
@@ -31,6 +34,9 @@ function App() {
         <Route path="/check/otp" element={<OTPInput/>} />
         <Route path="/admin" element={<AdminLogin/>} />
         <Route path="/profile" element={<Profile/>} />
+        <Route path='/profile/individualedit' element={<IndividualEdit/>} />
+        <Route path='/profile/companyedit' element={<CompanyEdit/>} />
+        <Route path='/company/payments' element={<ContributionPayment/>} />
       </Routes>
     </Router>
     </>

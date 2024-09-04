@@ -72,12 +72,7 @@ const CompanyRegister = () => {
       return;
     }
   
-    const submissionData = { ...formData };
-    // if (formData.taxExemptionRequired === 'no') {
-    //   delete submissionData.pan;
-    // }
-  
-    axios.post(`${BASE_URL}auth/registerCompany/`, submissionData, {
+    axios.post(`${BASE_URL}auth/registerCompany/`, formData, {
       withCredentials: true,
     })
       .then((response) => {

@@ -1,45 +1,62 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import Select from "react-select";
+import { selectToken } from "../redux/authSlice";
 
 const CollegeSelection = ({ district, setSelectedCollege, setCurrentStep, goBack }) => {
+  const token = useSelector(selectToken);
   const [colleges, setColleges] = useState([]);
+  const [error, setError] = useState(null);
+  const districts = district.toUpperCase();
 
   useEffect(() => {
-    // Filter colleges based on the selected district
-    const allColleges = {
-      Anakapalli: [
-        "Visakha Govt Jr College",
-        "Dr Vs k Govt Jr College",
-        "Govt Jr College, Pendurthy",
-      ],
-      // Add other districts and their respective colleges here...
+    const fetchColleges = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}college/getCollegesByDistrict/${districts}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(districts);
+        console.log(response.data);
+        setColleges(response.data.map(college => ({
+          value: college.collegeName,
+          label: college.collegeName,
+        })));
+      } catch (error) {
+        console.error("Error fetching colleges:", error);
+        setError("Failed to load colleges. Please try again later.");
+      }
     };
-    setColleges(allColleges[district] || []);
-  }, [district]);
 
-  const handleCollegeClick = (college) => {
-    setSelectedCollege(college);
+    if (district) {
+      fetchColleges();
+    }
+  }, [district, token, districts]);
+
+  const handleCollegeChange = (selectedOption) => {
+    setSelectedCollege(selectedOption.value);
     setCurrentStep(3);
   };
 
   return (
-    <div className="w-1/2 bg-white p-6 shadow-md">
+    <div className="w-1/2 p-6">
       <h2 className="text-blue-700 font-bold text-lg mb-4">Select College</h2>
-      <div className="space-y-4">
-        {colleges.map((college, index) => (
-          <div key={index} className="flex items-center">
-            <input
-              type="radio"
-              id={college}
-              name="college"
-              value={college}
-              onClick={() => handleCollegeClick(college)}
-            />
-            <label htmlFor={college} className="ml-2">
-              {college}
-            </label>
-          </div>
-        ))}
-      </div>
+      {error ? (
+        <div className="text-red-500">{error}</div>
+      ) : (
+        <div className="space-y-4">
+          <Select
+            options={colleges}
+            onChange={handleCollegeChange}
+            placeholder="Select a college..."
+            className="mb-4"
+            classNamePrefix="select"
+          />
+          {colleges.length === 0 && <div>No colleges found in this district.</div>}
+        </div>
+      )}
       <div className="flex items-center justify-start mt-8">
         <button onClick={goBack} className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">
           Back

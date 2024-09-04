@@ -20,12 +20,11 @@ const PaymentForm = ({ goBack }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Payment Data:', paymentData);
-    // Add your logic to handle the payment data here
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 flex space-x-8">
+    <div className="flex justify-center items-center">
+      <div className="p-8 flex space-x-8">
         <div className="w-1/2">
           <h2 className="text-xl font-bold text-blue-700 mb-4">Payment</h2>
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -11,6 +11,7 @@ import SignInemail from "./components/SignInemail";
 import OTPInput from "./components/OTPInput";
 import AdminLogin from "./components/AdminLogin";
 import Collegespecific from "./components/Collegespecific";
+import Profile from "./components/Profile";
 function App() {
   return (
     <>
@@ -29,6 +30,7 @@ function App() {
         <Route path="/check" element={<SignInemail/>} />
         <Route path="/check/otp" element={<OTPInput/>} />
         <Route path="/admin" element={<AdminLogin/>} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
     </Router>
     </>

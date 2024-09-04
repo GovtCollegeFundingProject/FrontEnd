@@ -34,6 +34,7 @@ const IndividualEdit = () => {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                timeout: 10000, // 10 seconds
             });
             navigate('/profile');
         } catch (error) {

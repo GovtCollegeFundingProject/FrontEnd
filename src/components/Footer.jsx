@@ -1,4 +1,7 @@
 import React from 'react';
+import img from '../assets/img1.jpeg';
+import img2 from '../assets/AAhublogo.png';
+import img3 from '../assets/statecouncil.png';
 
 const Footer = () => {
   return (
@@ -11,9 +14,9 @@ const Footer = () => {
       >
         <div className="flex flex-col items-start justify-start space-x-5 p-5 w-1/3">
           <div className="flex space-x-5 pl-5">
-            <img src="./img1.jpeg" alt="logo" className="h-20 w-20 mix-blend-multiply" />
-            <img src="./AAhublogo.png" alt="logo" className="h-20 w-20 mix-blend-multiply" />
-            <img src="./statecouncil.png" alt="logo" className="h-20 w-20 mix-blend-multiply" />
+            <img src={img} alt="logo" className="h-20 w-20 mix-blend-multiply" />
+            <img src={img2} alt="logo" className="h-20 w-20 mix-blend-multiply" />
+            <img src={img3} alt="logo" className="h-20 w-20 mix-blend-multiply" />
           </div>
           <p className="flex items-start font-bold ml-0 mt-10 text-xl text-gray-800 w-96">
             Join the Government of AP in building world-class labs for Junior Colleges.

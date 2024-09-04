@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import LessThanIcon from '@mui/icons-material/ChevronLeft';
 import { selectToken, setMail, setToken } from '../redux/authSlice';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -34,11 +36,10 @@ const Signin = () => {
     setIsLoading(true);
 
     try {
-      console.log(formData);
       const response = await axios.post(`${BASE_URL}auth/login/`, formData, {
         withCredentials: true,
       });
-  
+
       if (response && response.data) {
         const { token, individualData, companyData } = response.data;
         dispatch(setToken(token));
@@ -49,12 +50,20 @@ const Signin = () => {
           dispatch(setMail(companyData.name));
         }
 
-        console.log(response.data);
+        toast.success(`Promise resolved 👌 ${response.data.slug}`, {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
       } else {
-        console.error('Unexpected response structure:', response);
+        toast.error('Unexpected response structure');
       }
     } catch (error) {
-      console.error('Error during login:', error.response?.data || error.message);
+      toast.error(error.response?.data?.message || error.message);
     } finally {
       setIsLoading(false);
     }
@@ -70,6 +79,7 @@ const Signin = () => {
 
   return (
     <>
+      <ToastContainer />
       <div className="flex flex-row hover:cursor-pointer mt-20 ml-52" onClick={handleClicks}>
         <LessThanIcon className="text-2xl text-gray-800 cursor-pointer mt-2" />
         <h2 className="text-3xl font-medium text-[#06038D]">Sign In</h2>

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { selectToken } from '../redux/authSlice';
 import { useSelector } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CompanyRegister = () => {
   const navigate = useNavigate();
@@ -76,17 +78,30 @@ const CompanyRegister = () => {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response.data);
+        toast.success(`Company registered successfully! 👌 ${response.data.slug}`, {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
         navigate('/signin');
       })
       .catch((error) => {
-        console.error('Error during registration:', {
-          message: error.message,
-          response: error.response ? error.response.data : 'No response received',
-          config: error.config,
+        toast.error(error.response?.data.message || 'An error occurred during registration', {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
         });
       });
   };
+
   
   
 
@@ -110,7 +125,8 @@ const CompanyRegister = () => {
 
   return (
     <>
-      <div className="flex flex-col ml-5 mt-3">
+    <ToastContainer/>
+      <div className="flex flex-col ml-5 mt-3 mb-2">
         <div className="flex flex-row hover:cursor-pointer" onClick={() => navigate('/register')}>
           <LessThanIcon className='text-2xl text-gray-800 cursor-pointer mt-2' />
           <h2 className="text-3xl font-bold text-gray-800 mb-2">Now Register as a Company:</h2>
@@ -300,7 +316,7 @@ const CompanyRegister = () => {
             <div className="flex items-center justify-center">
               <button
                 type="submit"
-                className="w-1/5 p-3 text-lg bg-blue-900 text-white rounded transition-transform"
+                className="w-1/5 p-3 mb-2 text-lg bg-blue-900 text-white rounded transition-transform"
                 disabled={!isFormValid}
               >
                 REGISTER

@@ -23,9 +23,9 @@ const PaymentForm = ({ goBack }) => {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="p-8 flex space-x-8">
-        <div className="w-1/2">
+    <div className="flex justify-center ml-44">
+      <div className="p-4 flex space-x-2">
+        <div className="">
           <h2 className="text-xl font-bold text-blue-700 mb-4">Payment</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

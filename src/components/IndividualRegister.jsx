@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import LessThanIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useNavigate } from 'react-router';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const IndividualRegister = () => {
@@ -62,7 +64,6 @@ const IndividualRegister = () => {
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -74,18 +75,18 @@ const IndividualRegister = () => {
       anonymous: formData.anonymous,
     };
     
-    console.log(formDataToSend);
     axios.post(`${BASE_URL}auth/registerIndividual/`, formDataToSend, {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response.data);
+        toast.success(`Registration successful!`, { position: "top-right", autoClose: 3000, theme: "dark" });
         navigate('/signin');
       })
       .catch((error) => {
-        console.error('Error during registration:', error.response?.data || error.message);
+        toast.error(`Error: ${error.response?.data.message || error.message}`, { position: "top-right", autoClose: 3000, theme: "dark" });
       });
   };
+  
 
   useEffect(() => {
     const validateForm = () => {
@@ -108,6 +109,7 @@ const IndividualRegister = () => {
 
   return (
     <>
+     <ToastContainer />
       <div className="flex flex-col ml-5 mt-3">
         <div className="flex flex-row hover:cursor-pointer" onClick={() => navigate('/register')}>
           <LessThanIcon className='text-2xl text-gray-800 cursor-pointer mt-2' />

@@ -9,7 +9,10 @@ const DistrictSelection = ({ setSelectedDistrict, setCurrentStep }) => {
     { value: "Annamayya", label: "Annamayya" },
     { value: "Bapatla", label: "Bapatla" },
     { value: "Chittoor", label: "Chittoor" },
-    { value: "Dr. B.R. Ambedkar Konaseema", label: "Dr. B.R. Ambedkar Konaseema" },
+    {
+      value: "Dr. B.R. Ambedkar Konaseema",
+      label: "Dr. B.R. Ambedkar Konaseema",
+    },
     { value: "East Godavari", label: "East Godavari" },
     { value: "Eluru", label: "Eluru" },
     { value: "Guntur", label: "Guntur" },
@@ -21,7 +24,10 @@ const DistrictSelection = ({ setSelectedDistrict, setCurrentStep }) => {
     { value: "Palnadu", label: "Palnadu" },
     { value: "Parvathipuram Manyam", label: "Parvathipuram Manyam" },
     { value: "Prakasam", label: "Prakasam" },
-    { value: "Sri Potti Sriramulu Nellore", label: "Sri Potti Sriramulu Nellore" },
+    {
+      value: "Sri Potti Sriramulu Nellore",
+      label: "Sri Potti Sriramulu Nellore",
+    },
     { value: "Sri Sathya Sai", label: "Sri Sathya Sai" },
     { value: "Srikakulam", label: "Srikakulam" },
     { value: "Tirupati", label: "Tirupati" },
@@ -35,7 +41,17 @@ const DistrictSelection = ({ setSelectedDistrict, setCurrentStep }) => {
   };
 
   return (
-    <div className="w-1/2 bg-white p-6 shadow-md">
+    // <div className="w-1/2 bg-white p-6 shadow-md">
+    //   <h2 className="text-blue-700 font-bold text-lg mb-4">Select District</h2>
+    //   <Select
+    //     options={districts}
+    //     onChange={handleDistrictChange}
+    //     placeholder="Search and select a district"
+    //     className="text-black"
+    //   />
+    // </div>
+
+    <div className="w-full md:w-1/2 bg-white p-6 shadow-md">
       <h2 className="text-blue-700 font-bold text-lg mb-4">Select District</h2>
       <Select
         options={districts}

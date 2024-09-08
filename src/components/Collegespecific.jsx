@@ -19,11 +19,14 @@ function Collegespecific() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}user/getUser`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}user/getUser`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -59,20 +62,31 @@ function Collegespecific() {
           />
         );
       case 3:
-        return (
-          <PaymentForm 
-            goBack={goBack} 
-          />
-        );
+        return <PaymentForm goBack={goBack} />;
       default:
         return null;
     }
   };
 
   return (
+    //   <div className="container mx-auto py-6">
+    //     <Steps currentStep={currentStep} />
+    //     <div className="flex">
+    //       {user ? (
+    //         <UserDetails user={user} />
+    //       ) : error ? (
+    //         <div className="text-red-500">{error}</div>
+    //       ) : (
+    //         <div>Loading user details...</div>
+    //       )}
+    //       {renderRightComponent()}
+    //     </div>
+    //   </div>
+    // );
+
     <div className="container mx-auto py-6">
       <Steps currentStep={currentStep} />
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         {user ? (
           <UserDetails user={user} />
         ) : error ? (

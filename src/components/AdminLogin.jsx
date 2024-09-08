@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { setAdminToken } from "../redux/authSlice"; // Import the action
-
+import { setAdminToken } from "../redux/authSlice"; 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Set up dispatch
+  const dispatch = useDispatch(); 
 
   const [formData, setFormData] = useState({
     email: "",

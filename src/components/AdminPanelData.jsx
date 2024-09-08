@@ -38,8 +38,6 @@ const AdminPanelData = () => {
           },
         }
       );
-
-      // Set the data to state
       setAdminData(response.data);
     } catch (error) {
       console.error("Error fetching transactions", error);

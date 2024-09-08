@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const AdminLogin = () => {
@@ -14,18 +16,22 @@ const AdminLogin = () => {
       [name]: value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const navigate = useNavigate();
     console.log(formData);
     try {
-      const response = axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}admin/login/`,
         formData,
         {
           withCredentials: true,
         }
       );
-      console.log(response);
+      // console.log("response", response);
+      if (response.status === 200) {
+        navigate("/admin-panel");
+      }
     } catch (error) {
       console.log(error);
     }

@@ -39,7 +39,7 @@ const Navbar = () => {
           </div>
         </div>
         {token ? (
-          <div className="mt-5">
+          <div className="mt-5 mr-9">
             <div className="text-black text-xl">
               <DropdownMenu />
             </div>

@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { selectToken } from "../redux/authSlice";
+import { selectAdminToken, selectToken } from "../redux/authSlice";
+import { useNavigate } from "react-router";
+
 const AdminPanelData = () => {
+  const navigate = useNavigate()
   const [transactionType, setTransactionType] = useState("general");
   const [transactions, setTransactions] = useState([]);
   const [sortOption, setSortOption] = useState("time");
-
+  const token = useSelector(selectAdminToken);
   useEffect(() => {
     fetchTransactions();
   }, [transactionType, sortOption]);
 
   const fetchTransactions = async () => {
     try {
-      const token = useSelector(selectToken);
-      //   const response = await axios.get(/api/transactions, {
-      //     params: {
-      //       type: transactionType,
-      //       sort: sortOption
-      //     }
-      //   });
-      //   setTransactions(response.data);
+
+        const responses = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/transactions`, {
+          params: {
+            type: transactionType,
+            sort: sortOption
+          }
+        });
+        setTransactions(responses.data);
       if (!token) {
-        // If no token found, redirect to login
+
         navigate("/admin-login");
         return;
       }

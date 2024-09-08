@@ -38,7 +38,7 @@ function App() {
           <Route path="/profile/individualedit" element={<IndividualEdit />} />
           <Route path="/profile/companyedit" element={<CompanyEdit />} />
           <Route path="/company/payments" element={<ContributionPayment />} />
-          <Route path="/admin-panel" element={<AdminPanelData />} />
+          <Route path="/admin/admin-panel" element={<AdminPanelData />} />
         </Routes>
       </Router>
     </>

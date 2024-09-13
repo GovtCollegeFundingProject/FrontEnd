@@ -12,9 +12,11 @@ const Profile = () => {
   // Handle navigation based on role
   const handleEdit = () => {
     if (profileData.user.role === "INDIVIDUAL") {
-      navigate("/profile/individualedit");
+      navigate("/profile/individualedit", {
+        state: { data: User, userDetails },
+      });
     } else if (profileData.user.role === "COMPANY") {
-      navigate("/profile/companyedit");
+      navigate("/profile/companyedit", { state: { data: User, userDetails } });
     }
   };
 
@@ -42,6 +44,7 @@ const Profile = () => {
   if (!profileData) return <div>Loading...</div>;
 
   const { user, individual, company } = profileData;
+  const User = user;
   const userDetails = individual || company || {};
 
   const handleSalutationChange = (event) => {
@@ -78,7 +81,7 @@ const Profile = () => {
         <div className="border-t border-gray-300 pt-4">
           <div className="mb-4">
             <span className="block font-semibold text-gray-600">
-              Select Salutation:
+              Salutation:
             </span>
             <div className="flex items-center space-x-4 mt-2">
               {["Mr.", "Ms.", "Mrs.", "Dr."].map((salutation) => (

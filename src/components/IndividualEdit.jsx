@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import { useNavigate } from "react-router";
 
 const IndividualEdit = () => {
+  const location = useLocation();
+  const { User, userDetails } = location.state || {};
+  console.log("user", User, "used", userDetails);
   const navigate = useNavigate();
   const token = useSelector(selectToken);
   const [formData, setFormData] = useState({
-    name: "",
-    salutation: "",
-    residency: "",
-    pan: "",
-    taxExemptionRequired: false,
-    anonymous: false,
+    name: userDetails.name,
+    salutation: userDetails.salutation,
+    residency: userDetails.residency,
+    pan: userDetails.pan,
+    taxExemptionRequired: User.taxExemptionRequired,
+    anonymous: User.anonymous,
   });
 
   const [errors, setErrors] = useState({});

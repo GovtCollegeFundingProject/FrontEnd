@@ -276,7 +276,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#contributors" className="text-lg text-gray-700">
-                  Contributors
+                  Contribute
                 </a>
               </li>
             </ul>
@@ -286,10 +286,10 @@ const Footer = () => {
             <ul className="space-y-3 md:space-y-5">
               <li>
                 <a
-                  href="https://apsche.ap.gov.in/"
+                  href="https://bie.ap.gov.in/"
                   className="text-lg text-gray-700"
                 >
-                  https://apsche.ap.gov.in/
+                  https://bie.ap.gov.in/
                 </a>
               </li>
               <li>

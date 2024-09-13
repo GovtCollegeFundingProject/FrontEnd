@@ -5,7 +5,7 @@ import { selectAdminToken, selectToken } from "../redux/authSlice";
 import { useNavigate } from "react-router";
 
 const AdminPanelData = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [transactionType, setTransactionType] = useState("general");
   const [transactions, setTransactions] = useState([]);
   const [sortOption, setSortOption] = useState("time");
@@ -15,30 +15,36 @@ const AdminPanelData = () => {
   }, [transactionType, sortOption]);
 
   const fetchTransactions = async () => {
+    if (!token) {
+      navigate("/admin-login");
+      return;
+    }
     try {
-
-        const responses = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/transactions`, {
-          params: {
-            type: transactionType,
-            sort: sortOption
-          }
-        });
-        setTransactions(responses.data);
-      if (!token) {
-
-        navigate("/admin-login");
-        return;
-      }
-
-      const response = await axios.get(
+      const responses = await axios.get(
         `${import.meta.env.VITE_BASE_URL}admin/admin-panel/`,
         {
+          params: {
+            type: transactionType,
+            sort: sortOption,
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setAdminData(response.data);
+      console.log(responses);
+      setTransactions(responses.data);
+      console.log(transactions);
+
+      //   const response = await axios.get(
+      //     `${import.meta.env.VITE_BASE_URL}admin/admin-panel/`,
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     }
+      //   );
+      //   setAdminData(response.data);
     } catch (error) {
       console.error("Error fetching transactions", error);
     }
@@ -86,15 +92,17 @@ const AdminPanelData = () => {
             <th>Amount</th>
             <th>Transaction Type</th>
             <th>Date</th>
+            <th>Donor mail</th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.id}</td>
-              <td>{transaction.amount}</td>
+            <tr key={transaction.transactionID}>
+              <td>{transaction.transactionID}</td>
+              <td>{transaction.amount + "₹"}</td>
               <td>{transaction.type}</td>
-              <td>{new Date(transaction.date).toLocaleString()}</td>
+              <td>{new Date(transaction.transactionTime).toLocaleString()}</td>
+              <td>{transaction.email}</td>
             </tr>
           ))}
         </tbody>

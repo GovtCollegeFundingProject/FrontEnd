@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 import LessThanIcon from "@mui/icons-material/ChevronLeft";
 import { selectToken, setMail, setToken } from "../redux/authSlice";
 import { toast, ToastContainer } from "react-toastify";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signin = () => {
@@ -17,6 +19,7 @@ const Signin = () => {
     email: "",
     password: "",
   });
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClicks = () => {
@@ -75,6 +78,10 @@ const Signin = () => {
     });
   };
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
   return (
     <>
       <ToastContainer />
@@ -123,14 +130,22 @@ const Signin = () => {
               onChange={handleChange}
               className="w-full p-2 mb-4 border border-gray-300 rounded"
             />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-2 mb-4 border border-gray-300 rounded"
-            />
+            <div className="relative w-full mb-4">
+              <input
+                type={isPasswordVisible ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+              <span
+                className="absolute right-3 top-2 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </span>
+            </div>
             <div className="flex justify-between items-center w-full mb-4">
               <div className="text-sm">
                 <a href="#" className="text-blue-500 hover:underline">

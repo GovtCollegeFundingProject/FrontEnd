@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { selectMail, selectToken } from "../redux/authSlice";
 import DropdownMenu from "./DropdownMenu";
 import image4 from "../assets/img1.jpeg";
-import imga3 from "../assets/AAhublogo.png";
+import imga1 from "../assets/AAhublogo.png";
 
 const Navbar = () => {
   const token = useSelector(selectToken);
@@ -25,12 +25,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white w-full fixed top-0 z-10">
+    <div
+      className="bg-white w-full fixed top-0 z-10"
+      style={{ position: "sticky" }}
+    >
       <div className="flex items-center justify-between p-5 h-20">
         {/* Logos */}
         <div className="flex items-center">
           <img src={image4} alt="logo" className="h-14 w-14 mr-2" />
-          <img src={imga3} alt="logo" className="h-14 w-14" />
+          <img src={imga1} alt="logo" className="h-14 w-14" />
         </div>
         {/* Nav Links (shown only on large screens) */}
         <div className="hidden lg:flex space-x-8">

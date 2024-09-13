@@ -1,5 +1,6 @@
 import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import Signin from "./components/SignIn";
 import Register from "./components/Register";
 import AboutUs from "./components/AboutUs";
@@ -20,26 +21,34 @@ function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/register/individual" element={<IndividualRegister />} />
-          <Route path="/register/company" element={<CompanyRegister />} />
-          <Route path="/company" element={<ContributionDetails />} />
-          <Route path="/company/payment" element={<PaymentForm />} />
-          <Route path="*" element={<h1>Not Found</h1>} />
-          <Route path="/collegespecific" element={<Collegespecific />} />
-          <Route path="/check" element={<SignInemail />} />
-          <Route path="/check/otp" element={<OTPInput />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/individualedit" element={<IndividualEdit />} />
-          <Route path="/profile/companyedit" element={<CompanyEdit />} />
-          <Route path="/company/payments" element={<ContributionPayment />} />
-          <Route path="/admin/admin-panel" element={<AdminPanelData />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/register/individual"
+              element={<IndividualRegister />}
+            />
+            <Route path="/register/company" element={<CompanyRegister />} />
+            <Route path="/company" element={<ContributionDetails />} />
+            <Route path="/company/payment" element={<PaymentForm />} />
+            <Route path="*" element={<h1>Not Found</h1>} />
+            <Route path="/collegespecific" element={<Collegespecific />} />
+            <Route path="/check" element={<SignInemail />} />
+            <Route path="/check/otp" element={<OTPInput />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile/individualedit"
+              element={<IndividualEdit />}
+            />
+            <Route path="/profile/companyedit" element={<CompanyEdit />} />
+            <Route path="/company/payments" element={<ContributionPayment />} />
+            <Route path="/admin/admin-panel" element={<AdminPanelData />} />
+          </Routes>
+        </Layout>
       </Router>
     </>
   );

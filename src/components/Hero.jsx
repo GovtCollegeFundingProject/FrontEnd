@@ -3,6 +3,11 @@ import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import img from "../assets/image4.png";
+import carousel1 from "../assets/carousel1.jpg";
+import carousel2 from "../assets/carousel2.jpg";
+import carousel3 from "../assets/carousel3.jpeg";
+import carousel4 from "../assets/carousel4.jpg";
+import carousel5 from "../assets/carousel5.jpg";
 
 // const Hero = () => {
 //   return (
@@ -250,21 +255,35 @@ const Hero = () => {
       >
         <div className="h-96 md:h-screen flex items-center justify-center overflow-hidden">
           <img
-            src={"https://srisaichaitanyajr.com/img/photos/lab-3.jpg"}
+            src={carousel1}
             alt="carousel-image-1"
             className="h-full w-full object-cover filter grayscale"
           />
         </div>
         <div className="h-96 md:h-screen flex items-center justify-center overflow-hidden">
           <img
-            src={"https://www.kcmt.in/images/infra-chemistry.jpg"}
+            src={carousel2}
             alt="carousel-image-2"
             className="h-full w-full object-cover filter grayscale"
           />
         </div>
         <div className="h-96 md:h-screen flex items-center justify-center overflow-hidden">
           <img
-            src={"https://www.kcmt.in/admin/uploads/2c26j2.jpg"}
+            src={carousel3}
+            alt="carousel-image-3"
+            className="h-full w-full object-cover filter grayscale"
+          />
+        </div>
+        <div className="h-96 md:h-screen flex items-center justify-center overflow-hidden">
+          <img
+            src={carousel4}
+            alt="carousel-image-3"
+            className="h-full w-full object-cover filter grayscale"
+          />
+        </div>
+        <div className="h-96 md:h-screen flex items-center justify-center overflow-hidden">
+          <img
+            src={carousel5}
             alt="carousel-image-3"
             className="h-full w-full object-cover filter grayscale"
           />

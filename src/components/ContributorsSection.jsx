@@ -112,12 +112,12 @@ const ContributorsSection = () => {
             {
               name: "Ramesh Kumar",
               amount: "₹3,00,000",
-              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjWflfExnCbA3PI_8NTRje0pKSOMvYN8U73g&s",
+              img: "https://static.vecteezy.com/system/resources/thumbnails/028/287/529/small_2x/indian-man-with-crossed-arms-wearing-a-formal-shirt-ai-generated-photo.jpg",
             },
             {
               name: "Mahesh Reddy",
               amount: "₹5,00,000",
-              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScfEryph4Lznqm--GKcjH2MRGC6MOyCQE6e-fppezYryk08N0iUMz6x1V7zSYcSjGnQHg&usqp=CAU",
+              img: "https://static.vecteezy.com/system/resources/previews/006/859/348/non_2x/young-boy-indian-student-portrait-photo.jpg",
             },
             {
               name: "Ravi Battula",
@@ -127,10 +127,10 @@ const ContributorsSection = () => {
             {
               name: "Anitha Reddy",
               amount: "₹1,00,000",
-              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQCoNBR6cEkst7qR4IQZWouAkk1fobXu6DBg&s",
+              img: "https://thumbs.dreamstime.com/z/confident-indian-woman-21143788.jpg",
             },
             {
-              name: "Lakshmi Narayana",
+              name: "Lakshmi Kumari",
               amount: "₹5,00,000",
               img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyWMWQUMb08QYNyuzGJ2miNkUCtQxODSvzGQ&s",
             },

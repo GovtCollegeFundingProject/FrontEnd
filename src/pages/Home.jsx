@@ -5,11 +5,12 @@ import ContributorsSection from "../components/ContributorsSection";
 import WhatWeDo from "../components/WhatWeDo";
 import AboutUs from "../components/AboutUs";
 import Footer from "../components/Footer";
-
+import Scrolling from "../components/Scrolling";
 const Home = () => {
   return (
     <div className="">
       {/* <Navbar /> */}
+      <Scrolling />
       <Hero />
       <ContributorsSection />
       <WhatWeDo />

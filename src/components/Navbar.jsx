@@ -37,10 +37,10 @@ const Navbar = () => {
         </div>
         {/* Nav Links (shown only on large screens) */}
         <div className="hidden lg:flex space-x-8">
-          <a href="#home" className="text-lg font-bold text-black">
+          <a href="/" className="text-lg font-bold text-black">
             Home
           </a>
-          <a href="#about" className="text-lg font-bold text-black">
+          <a href="/" className="text-lg font-bold text-black">
             About
           </a>
         </div>

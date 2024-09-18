@@ -7,8 +7,8 @@ import { useNavigate } from "react-router";
 
 const IndividualEdit = () => {
   const location = useLocation();
-  const { User, userDetails } = location.state || {};
-  console.log("user", User, "used", userDetails);
+  const { data: user, userDetails } = location.state || {};
+  console.log("user", user, "used", userDetails);
   const navigate = useNavigate();
   const token = useSelector(selectToken);
   const [formData, setFormData] = useState({
@@ -16,9 +16,12 @@ const IndividualEdit = () => {
     salutation: userDetails.salutation,
     residency: userDetails.residency,
     pan: userDetails.pan,
-    taxExemptionRequired: User.taxExemptionRequired,
-    anonymous: User.anonymous,
+    taxExemptionRequired: user.taxExemptionRequired,
+    anonymous: user.anonymous,
   });
+  const handleSaveChange = () => {
+    navigate("/");
+  };
 
   const [errors, setErrors] = useState({});
 
@@ -114,7 +117,9 @@ const IndividualEdit = () => {
             placeholder="Enter PAN"
           />
         </div>
-
+        <div>
+          <strong>Please Enter PAN Number if you want Tax Exemption</strong>
+        </div>
         <div>
           <label className="flex items-center">
             <input
@@ -145,6 +150,7 @@ const IndividualEdit = () => {
           <button
             type="submit"
             className="p-3 bg-blue-700 text-white rounded hover:bg-blue-800"
+            onClick={handleSaveChange}
           >
             Save Changes
           </button>

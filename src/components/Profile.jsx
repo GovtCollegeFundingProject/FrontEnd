@@ -13,10 +13,10 @@ const Profile = () => {
   const handleEdit = () => {
     if (profileData.user.role === "INDIVIDUAL") {
       navigate("/profile/individualedit", {
-        state: { data: User, userDetails },
+        state: { data: user, userDetails },
       });
     } else if (profileData.user.role === "COMPANY") {
-      navigate("/profile/companyedit", { state: { data: User, userDetails } });
+      navigate("/profile/companyedit", { state: { data: user, userDetails } });
     }
   };
 
@@ -31,7 +31,7 @@ const Profile = () => {
             },
           }
         );
-        console.log(response.data);
+        // console.log(response.data);
         setProfileData(response.data);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -44,9 +44,9 @@ const Profile = () => {
   if (!profileData) return <div>Loading...</div>;
 
   const { user, individual, company } = profileData;
-  const User = user;
+  // const User = user;
   const userDetails = individual || company || {};
-
+  // console.log(user, individual);
   const handleSalutationChange = (event) => {
     console.log(`Salutation changed to: ${event.target.value}`);
   };

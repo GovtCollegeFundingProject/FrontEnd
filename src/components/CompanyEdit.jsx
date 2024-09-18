@@ -7,19 +7,19 @@ import { useNavigate } from "react-router";
 
 const CompanyEdit = () => {
   const location = useLocation();
-  const { user, userDetails } = location.state || {};
+  const { data: user, userDetails } = location.state || {};
   const navigate = useNavigate();
   const token = useSelector(selectToken);
 
   // Initial form data (replace these values with actual data as needed)
   const [formData, setFormData] = useState({
-    companyID: "",
-    name: "",
-    salutation: "",
-    pan: "",
-    taxExemptionRequired: false,
-    anonymous: false,
-    contactPersonName: "",
+    companyID: userDetails.companyID,
+    name: userDetails.name,
+    salutation: userDetails.salutation,
+    pan: userDetails.pan,
+    taxExemptionRequired: user.taxExemptionRequired,
+    anonymous: user.anonymous,
+    contactPersonName: userDetails.contactPersonName,
   });
 
   const [errors, setErrors] = useState({});
